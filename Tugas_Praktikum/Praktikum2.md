@@ -1,6 +1,6 @@
 About
-![alt text](<Screenshot 2026-03-02 202059-1.png>)
+Tugas_Praktikum/SS/Screenshot 2026-03-02 202059.png
 Register
-![alt text](<Screenshot 2026-03-02 202122-1.png>)
+Tugas_Praktikum/SS/Screenshot 2026-03-02 202122.png
 Login
-![alt text](<Screenshot 2026-03-02 202135-1.png>)
+Tugas_Praktikum/SS/Screenshot 2026-03-02 202135.png
