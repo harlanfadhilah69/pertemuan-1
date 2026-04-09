@@ -15,6 +15,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    {{-- Link ke Halaman Product --}}
+                    <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.*')">
+                        {{ __('Product') }}
+                    </x-nav-link>
                     <x-nav-link :href="url('/about')" :active="request()->is('about')">
                         {{ __('Tentang Saya') }}
                     </x-nav-link>

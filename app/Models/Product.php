@@ -20,5 +20,11 @@ class Product extends Model
         'description',
         'price',
         'stock',
+        'user_id', // Tambahkan user_id ke fillable agar bisa diisi saat create
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
