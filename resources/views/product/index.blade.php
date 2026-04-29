@@ -4,7 +4,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg border border-gray-200 dark:border-gray-700">
                 <div class="p-8">
 
-                    {{-- Header Section (Tombol sudah dihapus dari sini) --}}
+                    {{-- Header Section --}}
                     <div class="mb-8">
                         <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                             Product Inventory
@@ -15,14 +15,13 @@
                     </div>
 
                     {{-- Flash Message --}}
-                    <div class="max-w-md mb-6"> {{-- Ukuran dibatasi agar tidak kepanjangan --}}
+                    <div class="max-w-md mb-6">
                         @if (session('success'))
                             <div class="flex items-center p-4 text-sm rounded-lg border shadow-sm transition-all duration-300 
                                 {{ session('success') == 'Product berhasil dihapus' 
                                     ? 'bg-red-50 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800' 
                                     : 'bg-green-50 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800' }}">
                                 
-                                {{-- Ikon --}}
                                 <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                                 </svg>
@@ -43,9 +42,9 @@
                                     <th class="px-6 py-4">Price (IDR)</th>
                                     <th class="px-6 py-4">Created By</th>
                                     
-                                    {{-- Kolom Action dengan Tombol Add Product --}}
+                                    {{-- PERBAIKAN: Menggunakan Gate 'isAdmin' --}}
                                     <th class="px-6 py-3 text-center">
-                                        @can('manage-product')
+                                        @can('isAdmin')
                                             <a href="{{ route('product.create') }}" class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg shadow-md transition-all duration-200 active:scale-95 border border-indigo-500">
                                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -86,7 +85,8 @@
                                             <div class="flex items-center justify-center gap-4">
                                                 <a href="{{ route('product.show', $product->id) }}" class="font-bold text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">View</a>
                                                 
-                                                @can('manage-product')
+                                                {{-- PERBAIKAN: Menggunakan Gate 'isAdmin' untuk Edit & Delete --}}
+                                                @can('isAdmin')
                                                     <a href="{{ route('product.edit', $product) }}" class="font-bold text-amber-500 hover:text-amber-700 dark:text-amber-400 transition-colors">Edit</a>
                                                     <form action="{{ route('product.delete', $product->id) }}" method="POST" onsubmit="return confirm('Hapus produk ini?')" class="inline">
                                                         @csrf @method('DELETE')

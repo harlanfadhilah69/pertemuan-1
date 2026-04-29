@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Product;
+use App\Models\Category;
+use App\Policies\ProductPolicy;
+use App\Policies\CategoryPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,8 +24,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('manage-product', function ($user) {
-        return $user->role === 'admin';
-    });
-}
+        // Register Policies
+        Gate::policy(Product::class, ProductPolicy::class);
+        Gate::policy(Category::class, CategoryPolicy::class);
+
+        // Define Gates
+        Gate::define('isAdmin', function ($user) {
+            return $user->role === 'admin'; 
+        });
+    }
 }

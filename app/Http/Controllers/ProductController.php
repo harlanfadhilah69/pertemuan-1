@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Category;
 use App\Http\Requests\StoreProductRequest; // WAJIB: Import file Request yang baru dibuat
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -23,7 +24,8 @@ class ProductController extends Controller
     public function create()
     {
         $users = User::orderBy('name')->get();
-        return view('product.create', compact('users'));
+        $categories = Category::orderBy('name')->get();
+        return view('product.create', compact('users', 'categories'));
     }
 
     /**
@@ -40,6 +42,7 @@ class ProductController extends Controller
                 'stock'   => $validated['quantity'],
                 'price'   => $validated['price'],
                 'user_id' => $validated['user_id'],
+                'category_id' => $validated['category_id'] ?? null,
             ]);
 
             return redirect()
@@ -67,7 +70,8 @@ class ProductController extends Controller
         Gate::authorize('update', $product); 
         
         $users = User::orderBy('name')->get();
-        return view('product.edit', compact('product', 'users'));
+        $categories = Category::orderBy('name')->get();
+        return view('product.edit', compact('product', 'users', 'categories'));
     }
 
     /**
@@ -83,6 +87,7 @@ class ProductController extends Controller
             'quantity' => 'required|integer|min:0',
             'price'    => 'required|numeric|min:0',
             'user_id'  => 'required|exists:users,id',
+            'category_id' => 'nullable|exists:category,id',
         ], [
             'name.required' => 'Nama produk tidak boleh kosong!',
             'price.numeric' => 'Harga harus berupa angka.',
@@ -93,6 +98,7 @@ class ProductController extends Controller
             'stock'   => $validated['quantity'],
             'price'   => $validated['price'],
             'user_id' => $validated['user_id'],
+            'category_id' => $validated['category_id'] ?? null,
         ]);
 
         return redirect()->route('product.index')->with('success', 'Product updated successfully.');
